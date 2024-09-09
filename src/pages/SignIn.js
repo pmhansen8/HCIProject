@@ -80,7 +80,7 @@ export default function SignIn() {
                         }}>
                             {loading ? 'Signing In...' : 'Sign In'}
                         </button>
-                        <p>Don't Have an account? <Link to="/"> Sign Up</Link></p>
+                        <p>Don't Have an account? <Link to="/sign-up"> Sign Up</Link></p>
                     </form>
                 </div>
             </div>

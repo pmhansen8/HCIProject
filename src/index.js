@@ -10,12 +10,13 @@ import About from "./pages/About"
 import LeaderBoard from "./pages/LeaderBoard"
 import Profile from "./pages/Profile"
 import SignInApp from "./SignInApp"
+import Landing from "./pages/Landing"
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 ReactDOM.render(
     <Router>
         <Routes>
-            <Route path="/" element={<App />} /> {/* Use 'element' instead of 'component' */}
+            <Route path="/sign-up" element={<App />} /> {/* Use 'element' instead of 'component' */}
             <Route path="/home" element={<Home />}></Route>
             <Route path="/new-item" element={<NewItem />}></Route>
             <Route path="/how-to-play" element={<HowToPlay />}></Route>
@@ -23,6 +24,7 @@ ReactDOM.render(
             <Route path="/leader-board" element={<LeaderBoard />}></Route>
             <Route path="/profile" element={<Profile />}></Route>
             <Route path="/sign-in" element={<SignInApp />}></Route>
+            <Route path = "/" element={<Landing/>}></Route>
         </Routes>
     </Router>,
     document.getElementById('root')

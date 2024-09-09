@@ -56,7 +56,7 @@ const Navbar = () => {
             <AppBar position="static" sx={{ backgroundColor: 'orange' }}>
                 <Container maxWidth="xl">
                     <Toolbar disableGutters>
-                        <Link to="/home" style={{ color: 'inherit', textDecoration: 'none' }}>
+                        <Link to="/" style={{ color: 'inherit', textDecoration: 'none' }}>
                             <Typography
                                 variant="h6"
                                 component="div"

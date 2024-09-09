@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
+import {Navigate, NavLink as Link} from 'react-router-dom';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Navbar from '../components/NavBar';
@@ -51,7 +51,7 @@ export default function SignIn() {
                     alignItems: "center",
                     justifyContent: "center"
                 }}>
-                    <form onSubmit={handleSignIn} style={{ textAlign: 'center', color: 'white' }}>
+                    <form onSubmit={handleSignIn} style={{textAlign: 'center', color: 'white'}}>
                         <h2>Sign In</h2>
                         <input
                             type="email"
@@ -59,21 +59,28 @@ export default function SignIn() {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             required
-                            style={{ margin: '10px', padding: '10px' }}
+                            style={{margin: '10px', padding: '10px'}}
                         />
-                        <br />
+                        <br/>
                         <input
                             type="password"
                             placeholder="Password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required
-                            style={{ margin: '10px', padding: '10px' }}
+                            style={{margin: '10px', padding: '10px'}}
                         />
-                        <br />
-                        <button type="submit" disabled={loading} style={{ padding: '10px 20px', backgroundColor: 'blue', color: 'white', border: 'none', borderRadius: '5px' }}>
+                        <br/>
+                        <button type="submit" disabled={loading} style={{
+                            padding: '10px 20px',
+                            backgroundColor: 'blue',
+                            color: 'white',
+                            border: 'none',
+                            borderRadius: '5px'
+                        }}>
                             {loading ? 'Signing In...' : 'Sign In'}
                         </button>
+                        <p>Don't Have an account? <Link to="/"> Sign Up</Link></p>
                     </form>
                 </div>
             </div>

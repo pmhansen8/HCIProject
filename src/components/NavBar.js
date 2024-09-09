@@ -196,9 +196,9 @@ const Navbar = () => {
                                         </Typography>
                                     </Link>
                                 </MenuItem>
-                                <MenuItem onClick={loggedIn ? handleLogout : () => navigate("/sign-in")}>
+                                <MenuItem onClick={loggedIn ? handleLogout : () => navigate("/")}>
                                     <Typography textAlign="center">
-                                        {loggedIn ? "Log Out" : "Log In"}
+                                        {loggedIn ? "Log Out" : "Sign Up"}
                                     </Typography>
                                 </MenuItem>
                             </Menu>

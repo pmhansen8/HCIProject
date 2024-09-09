@@ -99,7 +99,7 @@ export default function SignUp() {
                         <button type="submit" disabled={loading} style={{ padding: '10px 20px', backgroundColor: 'blue', color: 'white', border: 'none', borderRadius: '5px' }}>
                             {loading ? 'Signing Up...' : 'Sign Up'}
                         </button>
-                        <p>Already Have an account? <Link to="/sign-in"> Sign in</Link></p>
+                        <p>Already Have an account? <Link to="/sign-in"> Sign In</Link></p>
                     </form>
                 </div>
             </div>

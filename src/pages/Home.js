@@ -4,6 +4,7 @@ import { Carousel, Container, Form, Button } from "react-bootstrap";
 import { database } from '../config';
 import firebase from 'firebase';
 import { toast, ToastContainer } from "react-toastify";
+import Cookies from 'js-cookie';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function Home() {
@@ -14,7 +15,7 @@ export default function Home() {
     const [items, setItems] = useState([]);
     const [price, setPrice] = useState(0);
     const [guesscounter, updateguesscounter] = useState(0);
-    const [score, updatescore] = useState(0);
+    const [score, updatescore] = useState(parseInt(Cookies.get('score')));
     const [feedback, setFeedback] = useState("");
     const [guesses, setGuesses] = useState([]);
 
@@ -135,10 +136,11 @@ export default function Home() {
             } else {
                 toast(`Try Again`);
             }
+
         }
     };
 
-
+    Cookies.set('score', score, { expires: 7 });
     const currentItem = items[currentIndex] || {};
 
     return (
@@ -148,7 +150,7 @@ export default function Home() {
             <div
                 style={{
                     width: "100%",
-                    height: '100vh',
+                    minHeight: '100vh',
                     backgroundColor: "black",
                     display: "flex",
                     flexDirection: "column",
@@ -193,7 +195,7 @@ export default function Home() {
                                             className="d-block w-100 img-thumbnail"
                                             src={currentItem.image1}
                                             alt="Slide 1"
-                                            style={{ height: '500px', objectFit: 'cover' }}
+                                            style={{ maxheight: '500px', objectFit: 'contain', minHeight: '500px'}}
                                         />
                                     </Carousel.Item>
                                 )}
@@ -203,7 +205,7 @@ export default function Home() {
                                             className="d-block w-100 img-thumbnail"
                                             src={currentItem.image2}
                                             alt="Slide 2"
-                                            style={{ height: '500px', objectFit: 'cover' }}
+                                            style={{ height: '500px', objectFit: 'contain', minHeight: '500px' }}
                                         />
                                     </Carousel.Item>
                                 )}
@@ -213,7 +215,7 @@ export default function Home() {
                                             className="d-block w-100 img-thumbnail"
                                             src={currentItem.image3}
                                             alt="Slide 3"
-                                            style={{ height: '500px', objectFit: 'cover' }}
+                                            style={{ height: '500px', objectFit: 'contain', minHeight: '500px' }}
                                         />
                                     </Carousel.Item>
                                 )}
@@ -223,7 +225,7 @@ export default function Home() {
                                             className="d-block w-100 img-thumbnail"
                                             src={currentItem.image4}
                                             alt="Slide 4"
-                                            style={{ height: '500px', objectFit: 'cover' }}
+                                            style={{ height: '500px', objectFit: 'contain', minHeight: '500px'}}
                                         />
                                     </Carousel.Item>
                                 )}

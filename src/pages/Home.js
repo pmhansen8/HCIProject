@@ -15,7 +15,7 @@ export default function Home() {
     const [items, setItems] = useState([]);
     const [price, setPrice] = useState(0);
     const [guesscounter, updateguesscounter] = useState(0);
-    const [score, updatescore] = useState(parseInt(Cookies.get('score')));
+    const [score, updatescore] = useState(parseInt(Cookies.get('score')) || 0);
     const [feedback, setFeedback] = useState("");
     const [guesses, setGuesses] = useState([]);
 

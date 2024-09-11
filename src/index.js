@@ -11,6 +11,7 @@ import LeaderBoard from "./pages/LeaderBoard"
 import Profile from "./pages/Profile"
 import SignInApp from "./SignInApp"
 import Landing from "./pages/Landing"
+import Settings from "./pages/Settings"
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 ReactDOM.render(
@@ -25,6 +26,7 @@ ReactDOM.render(
             <Route path="/profile" element={<Profile />}></Route>
             <Route path="/sign-in" element={<SignInApp />}></Route>
             <Route path = "/" element={<Landing/>}></Route>
+            <Route path ="/settings" element={<Settings/>}></Route>
         </Routes>
     </Router>,
     document.getElementById('root')

@@ -17,7 +17,8 @@ export default function Home() {
     const [guesscounter, updateguesscounter] = useState(parseInt(Cookies.get('guesscount')) || 0);
     const [score, updatescore] = useState(parseInt(Cookies.get('score')) || 0);
     const [feedback, setFeedback] = useState("");
-    const [guesses, setGuesses] = useState([]);
+    const storedGuesses = Cookies.get('guesses');
+    const [guesses, setGuesses] = useState(storedGuesses ? JSON.parse(storedGuesses) : []);
 
     useEffect(() => {
         firebase.auth().onAuthStateChanged(function (user) {

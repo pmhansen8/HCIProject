@@ -148,7 +148,7 @@ export default function Home() {
                 style={{
                     width: "100%",
                     minHeight: '100vh',
-                    backgroundColor: "black",
+                    background: "linear-gradient(to bottom, black, gray)",
                     display: "flex",
                     flexDirection: "column",
                 }}

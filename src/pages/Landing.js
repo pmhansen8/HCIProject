@@ -16,7 +16,7 @@ export default function Landing(){
     return(
         <>
             <Navbar/>
-            <div style={{backgroundColor: 'black', color: 'white', minHeight: '100vh', display: 'flex' , justifyContent: 'center'}}>
+            <div style={{background: "linear-gradient(to bottom, black, gray)", color: 'white', minHeight: '100vh', display: 'flex' , justifyContent: 'center'}}>
 
                 <div style={{
                     width: "80%",

@@ -111,7 +111,7 @@ const NewItem = () => {
 
 
     return (
-        <div className="new-item" style={{ backgroundColor: 'black', minHeight: '100vh', color: 'white' }}>
+        <div className="new-item" style={{ background: "linear-gradient(to bottom, black, gray)", minHeight: '100vh', color: 'white' }}>
             <Navbar/>
             <Container className="mt-5">
                 <h1 className="text-center">New Item</h1>

@@ -114,6 +114,11 @@ const Navbar = () => {
                                         <Typography textAlign="center" >How To Play</Typography>
                                     </Link>
                                 </MenuItem>
+                                <MenuItem onClick={handleCloseNavMenu}>
+                                    <Link to="/settings" style={{ color: 'inherit', textDecoration: 'none' }}>
+                                        <Typography textAlign="center" >Settings</Typography>
+                                    </Link>
+                                </MenuItem>
                             </Menu>
                         </Box>
 
@@ -141,6 +146,12 @@ const Navbar = () => {
                                 sx={{ my: 2, color: "white", display: "block" }}
                             >
                                 <Link to='/how-to-play' style={{ color: 'inherit', textDecoration: 'none' }}>How To Play</Link>
+                            </Button>
+                            <Button
+                                onClick={handleCloseNavMenu}
+                                sx={{ my: 2, color: "white", display: "block" }}
+                            >
+                                <Link to="/settings" style={{ color: 'inherit', textDecoration: 'none' }}>Settings</Link>
                             </Button>
                         </Box>
 

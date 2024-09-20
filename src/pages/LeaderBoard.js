@@ -31,9 +31,9 @@ export default function LeaderBoard() {
     }, []);
 
     return (
-        <div style={{ backgroundColor: 'black', color: 'white', minHeight: '100vh' }}>
+        <div style={{ background: "linear-gradient(to bottom, black, gray)", color: 'white', minHeight: '100vh' }}>
             <Navbar />
-            <Container style={{ padding: '2rem', backgroundColor: 'black' }}>
+            <Container style={{ padding: '2rem' }}>
                 <h1 className="text-center">Leaderboard</h1>
                 <Table striped bordered hover variant="dark" style={{ color: 'white'}}>
                     <thead>

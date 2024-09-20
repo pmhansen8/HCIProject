@@ -38,7 +38,7 @@ export default function Profile() {
     }, []);
 
     return (
-        <div style={{ backgroundColor: 'black', color: 'white', minHeight: '100vh' }}>
+        <div style={{ background: "linear-gradient(to bottom, black, gray)", color: 'white', minHeight: '100vh' }}>
             <Navbar />
             <Container style={{ padding: '2rem' }}>
                 <Card style={{ backgroundColor: 'black', color: 'white', border: '1px solid white' }}>

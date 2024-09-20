@@ -71,7 +71,7 @@ export default function SignUp() {
                 <div style={{
                     width: "100%",
                     height: '100vh',
-                    backgroundColor: "black",
+                    background: "linear-gradient(to bottom, black, gray)",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center"

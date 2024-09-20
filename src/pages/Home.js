@@ -6,6 +6,8 @@ import firebase from 'firebase';
 import { toast, ToastContainer } from "react-toastify";
 import Cookies from 'js-cookie';
 import 'react-toastify/dist/ReactToastify.css';
+import congrats from '../sounds/tada-fanfare-a-6313.mp3';
+import fail from '../sounds/buzzer-or-wrong-answer-20582.mp3';
 
 export default function Home() {
     const [authState, setAuthState] = useState(null);
@@ -19,6 +21,8 @@ export default function Home() {
     const [feedback, setFeedback] = useState("");
     const storedGuesses = Cookies.get('guesses');
     const [guesses, setGuesses] = useState(storedGuesses ? JSON.parse(storedGuesses) : []);
+    const volume = Cookies.get('sound') || 100;
+    const [currvolume, setvolume] = useState(volume ? volume / 100 : 1);
 
     useEffect(() => {
         firebase.auth().onAuthStateChanged(function (user) {
@@ -113,18 +117,25 @@ export default function Home() {
 
         if (guessedPrice >= (actualPrice - 1) && guessedPrice <= (actualPrice + 1)) {
             toast(`Congrats! You win!`);
+            const congratsAudio = new Audio(congrats);
+            congratsAudio.volume = currvolume; 
+            congratsAudio.play();
             updateguesscounter(0);
             updatescore(score + 1);
             setGuesses([]);
             handleNext();
         } else {
             updateguesscounter(guesscounter + 1);
+            const failAudio = new Audio(fail);
+            failAudio.volume = currvolume; 
+            failAudio.play();
             let feedbackMessage = guessedPrice < actualPrice ? "Too low! Try again." : "Too high! Try again.";
             setFeedback(feedbackMessage);
             setGuesses([...guesses, { price: guessedPrice, feedback: feedbackMessage }]);
 
             if (guesscounter === 4) {
                 toast(`You Lose`);
+                failAudio.play();
                 updateguesscounter(0);
                 updatescore(0);
                 setGuesses([]);
@@ -263,7 +274,7 @@ export default function Home() {
                                                 type="submit"
                                                 style={{marginTop: '1rem', width: '100%'}}
                                             >
-                                                Submit
+                                                Submit 
                                             </Button>
                                         </Form>
                                         <p style={{marginTop: '1rem', color: 'black'}}>

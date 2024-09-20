@@ -2,7 +2,7 @@
 import Navbar from '../components/NavBar'
 import React from "react";
 import { useNavigate, NavLink as Link} from 'react-router-dom';
-
+import Cookies from 'js-cookie';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Slider from '@mui/material/Slider';
@@ -12,12 +12,12 @@ import VolumeUp from '@mui/icons-material/VolumeUp';
 export default function Settings(){
 
     const Navigate = useNavigate();
-    const [value, setValue] = React.useState(30);
+    const [value, setValue] = React.useState(Cookies.get('sound') || 100);
 
     const handleChange = (event, newValue) => {
       setValue(newValue);
     };
-
+    Cookies.set('sound', value, { expires: 7 });
     return(
         <>
             <Navbar/>

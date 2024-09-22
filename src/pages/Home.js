@@ -8,7 +8,8 @@ import Cookies from 'js-cookie';
 import 'react-toastify/dist/ReactToastify.css';
 import congrats from '../sounds/tada-fanfare-a-6313.mp3';
 import fail from '../sounds/buzzer-or-wrong-answer-20582.mp3';
-import { Cookie } from '@mui/icons-material';
+import generateMeta from '../components/openaicontroller';
+
 
 export default function Home() {
     const [authState, setAuthState] = useState(null);
@@ -25,6 +26,13 @@ const [currentIndex, setCurrentIndex] = useState(index || null);
     const [guesses, setGuesses] = useState(storedGuesses ? JSON.parse(storedGuesses) : []);
     const volume = Cookies.get('sound') || 100;
     const [currvolume, setvolume] = useState(volume ? volume / 100 : 1);
+    const [hintVisible, setHintVisible] = useState(false);
+    const [hintText, setHintText] = useState("");
+    const [meta, setMeta] = useState(null);
+    
+
+    
+
 
     useEffect(() => {
         firebase.auth().onAuthStateChanged(function (user) {
@@ -151,6 +159,21 @@ const [currentIndex, setCurrentIndex] = useState(index || null);
             }
         }
     };
+    
+    const handleHintToggle = () => {
+        setHintVisible(!hintVisible);
+    };
+
+    const handleHintChange = (e) => {
+        setHintText(e.target.value);
+    };
+
+    const hintSubmit = async (e) => {
+        e.preventDefault();
+        const generatedMeta = await generateMeta(hintText, parseFloat(currentItem.price));
+        setMeta(generatedMeta);
+        console.log("Generated Meta:", generatedMeta);
+    };
 
     Cookies.set('score', score, { expires: 7 });
     Cookies.set('guesscount', guesscounter, { expires: 7 });
@@ -230,10 +253,38 @@ const [currentIndex, setCurrentIndex] = useState(index || null);
                                         </Carousel.Item>
                                     )}
                                 </Carousel>
-                            </Container>
+                            <div>
+                            <Button
+                                            variant="secondary"
+                                            onClick={handleHintToggle}
+                                            style={{ marginTop: '1rem', width: '100%' }}
+                                        >
+                                            {hintVisible ? 'Hide Hint' : 'Hint'}
+                                        </Button>
+                                        {hintVisible && (
+                                            <Form.Group controlId="formHint" style={{ marginTop: '1rem' }}>
+                                                <Form.Label style={{color: 'white'}}>Type your hint prompt:</Form.Label>
+                                                <Form.Control
+                                                    type="text"
+                                                    placeholder="Cool hint here..."
+                                                    value={hintText}
+                                                    onChange={handleHintChange}
+                                                    style={{ borderRadius: '0.25rem' }}
+                                                    
+                                                />
+                                                  <Button variant="primary" type="submit" style={{ width: '100%' }} onClick={hintSubmit}>
+                                                Submit
+                                            </Button>
+                                            <p style={{color: 'white'}}>{meta}</p>
+                                               
+                                            </Form.Group>
+
+                                        )}
+                                    </div>
+                                    </Container>
                         </Col>
 
-                        {/* Form Column */}
+                        
                         <Col xs={12} lg={4} className="d-flex justify-content-center align-items-center">
                             <div style={{ position: 'relative', width: '100%' }}>
                                 <p style={{
@@ -267,7 +318,7 @@ const [currentIndex, setCurrentIndex] = useState(index || null);
                                     }}>
                                         <Form onSubmit={handleSubmit}>
                                             <Form.Group controlId="formPrice">
-                                                <Form.Label>Enter Price{Cookies.get('index')}</Form.Label>
+                                                <Form.Label>Enter Price</Form.Label>
                                                 <Form.Control
                                                     type="number"
                                                     placeholder="Enter price"

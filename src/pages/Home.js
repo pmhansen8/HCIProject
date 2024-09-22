@@ -8,12 +8,14 @@ import Cookies from 'js-cookie';
 import 'react-toastify/dist/ReactToastify.css';
 import congrats from '../sounds/tada-fanfare-a-6313.mp3';
 import fail from '../sounds/buzzer-or-wrong-answer-20582.mp3';
+import { Cookie } from '@mui/icons-material';
 
 export default function Home() {
     const [authState, setAuthState] = useState(null);
     const [userUid, setUserUid] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [currentIndex, setCurrentIndex] = useState(0);
+    const index = parseInt(Cookies.get('index'));
+const [currentIndex, setCurrentIndex] = useState(index || null);
     const [items, setItems] = useState([]);
     const [price, setPrice] = useState(0);
     const [guesscounter, updateguesscounter] = useState(parseInt(Cookies.get('guesscount')) || 0);
@@ -53,7 +55,11 @@ export default function Home() {
                     });
                 });
                 setItems(allItems);
-                setCurrentIndex(Math.floor(Math.random() * allItems.length));
+    
+                if (currentIndex === null) {
+                    const randomIndex = Math.floor(Math.random() * allItems.length);
+                    setCurrentIndex(randomIndex);
+                }
                 setLoading(false);
             } catch (error) {
                 console.error(error);
@@ -149,6 +155,7 @@ export default function Home() {
     Cookies.set('score', score, { expires: 7 });
     Cookies.set('guesscount', guesscounter, { expires: 7 });
     Cookies.set('guesses', JSON.stringify(guesses), { expires: 7 });
+    Cookies.set('index', currentIndex, { expires: 7 });
     const currentItem = items[currentIndex] || {};
 
     return (
@@ -260,7 +267,7 @@ export default function Home() {
                                     }}>
                                         <Form onSubmit={handleSubmit}>
                                             <Form.Group controlId="formPrice">
-                                                <Form.Label>Enter Price</Form.Label>
+                                                <Form.Label>Enter Price{Cookies.get('index')}</Form.Label>
                                                 <Form.Control
                                                     type="number"
                                                     placeholder="Enter price"

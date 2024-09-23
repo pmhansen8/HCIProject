@@ -4,7 +4,7 @@ export default function HowToPlay() {
     return (
         <>
             <Navbar />
-            <div style={{ background: "linear-gradient(to bottom, black, gray)", color: 'white', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            <div style={{ background: "linear-gradient(to bottom, black, gray)", color: 'white', minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '2em' }}>
                 <div style={{
                     width: '50%',
                     height: 'auto',

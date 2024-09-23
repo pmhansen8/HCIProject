@@ -170,7 +170,7 @@ const [currentIndex, setCurrentIndex] = useState(index || null);
 
     const hintSubmit = async (e) => {
         e.preventDefault();
-        const generatedMeta = await generateMeta(hintText, parseFloat(currentItem.price));
+        const generatedMeta = await generateMeta(hintText, parseFloat(currentItem.price), currentItem.description);
         setMeta(generatedMeta);
         console.log("Generated Meta:", generatedMeta);
     };

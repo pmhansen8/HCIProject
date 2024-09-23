@@ -1,9 +1,9 @@
 import openai from '../openaiconfig'; 
 
-const generateMeta = async (title, price) => {
+const generateMeta = async (title, price,item) => {
     try {
         const completion = await openai.chat.completions.create({
-            messages: [{ role: "user", content: `Come up with a creative hint given the user's hint message: "${title}" and the price of the item: "${price}". make sure to not actually include the price` }],
+            messages: [{ role: "user", content: `Come up with a hint that will lead the users to the price give the prompt: "${title}" , the price of the item: "${price}". and the description of the item: ${item} make sure to not actually include the price` }],
             model: "gpt-4o-mini",
             max_tokens: 100,
         });

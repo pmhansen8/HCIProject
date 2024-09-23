@@ -119,6 +119,16 @@ const Navbar = () => {
                                         <Typography textAlign="center" >Settings</Typography>
                                     </Link>
                                 </MenuItem>
+                                <MenuItem onClick={handleCloseNavMenu}>
+                                <a 
+        href="https://github.com/pmhansen8/HCIProject" 
+        target="_blank" 
+        rel="noopener noreferrer" 
+        style={{ color: 'inherit', textDecoration: 'none' }}
+    >
+        Github
+    </a>
+                                </MenuItem>
                             </Menu>
                         </Box>
 
@@ -153,6 +163,19 @@ const Navbar = () => {
                             >
                                 <Link to="/settings" style={{ color: 'inherit', textDecoration: 'none' }}>Settings</Link>
                             </Button>
+                            <Button
+                                onClick={handleCloseNavMenu}
+                                sx={{ my: 2, color: "white", display: "block" }}
+                            >
+                                  <a 
+        href="https://github.com/pmhansen8/HCIProject" 
+        target="_blank" 
+        rel="noopener noreferrer" 
+        style={{ color: 'inherit', textDecoration: 'none' }}
+    >
+        Github
+    </a>
+                            </Button>
                         </Box>
 
                         <Box sx={{ flexGrow: 0 }}>
@@ -180,7 +203,7 @@ const Navbar = () => {
                                 <MenuItem onClick={handleCloseUserMenu}>
                                     <Link
                                         to="/profile"
-                                        style={{ textDecoration: 'none' }} // Remove underline
+                                        style={{ textDecoration: 'none' }} 
                                     >
                                         <Typography textAlign="center" style={{ color: 'black' }}>
                                             Profile
@@ -192,6 +215,18 @@ const Navbar = () => {
                                         {loggedIn ? "Log Out" : "Sign Up"}
                                     </Typography>
                                 </MenuItem>
+                                <div>
+                                    {loggedIn ?  <><MenuItem onClick={() => navigate("/new-item")}>
+                                        <Typography textAlign="center">
+                                            Add Item
+                                        </Typography>
+                                    </MenuItem><MenuItem onClick={() => navigate("/new-item")}>
+                                            <Typography textAlign="center">
+
+                                            </Typography>
+                                        </MenuItem></> : null}
+                                
+                                </div>
                             </Menu>
                         </Box>
                     </Toolbar>

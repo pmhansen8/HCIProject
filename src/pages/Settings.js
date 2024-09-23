@@ -52,7 +52,7 @@ export default function Settings(){
                         width: "100%"
                     }}>
 
-<Box sx={{ width: 500 }}>
+    <Box sx={{ width: { xs: '90%', sm: 500 }}}>
       <Stack spacing={2} direction="row" sx={{ alignItems: 'center', mb: 1 }}>
         <VolumeDown style={{color: "black"}}/>
         <Slider aria-label="Volume" value={value} onChange={handleChange} />

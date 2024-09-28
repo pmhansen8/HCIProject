@@ -10,7 +10,6 @@ import congrats from '../sounds/tada-fanfare-a-6313.mp3';
 import fail from '../sounds/buzzer-or-wrong-answer-20582.mp3';
 import generateMeta from '../components/openaicontroller';
 
-
 export default function Home() {
     const [authState, setAuthState] = useState(null);
     const [userUid, setUserUid] = useState(null);

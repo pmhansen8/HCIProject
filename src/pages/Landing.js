@@ -30,9 +30,9 @@ export default function Landing(){
                 }
                 `}
             </style>
-            <div style={{background: "linear-gradient(to bottom, black, gray)", color: 'white', minHeight: '100vh' }}>
+            <div style={{background: "linear-gradient(to bottom, black, gray)", color: 'white', minHeight: '100vh',  overflow: 'hidden'}}>
 
-               <div style={{ textAlign: 'center', fontSize:'10em', transform: 'rotate(380deg)',animation: 'rotate 2s linear 1' }}><FontAwesomeIcon icon={faQuestion} /></div>
+               <div style={{ textAlign: 'center', fontSize:'10em', transform: 'rotate(380deg)',animation: 'rotate 2s linear 1', transformOrigin: 'center' }}><FontAwesomeIcon icon={faQuestion} /></div>
                     <p style={{ textAlign: 'center', color: 'black', fontSize: '4em',  }}>
                         Guess The Price? 
                     </p>

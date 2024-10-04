@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import NavBar from '../components/NavBar';
+import React, { useState, useEffect, Suspense, useCallback  } from 'react';
 import { Carousel, Container, Form, Button, Row, Col, Spinner } from "react-bootstrap"; 
 import { database } from '../config';
 import firebase from 'firebase';
@@ -9,6 +8,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import congrats from '../sounds/tada-fanfare-a-6313.mp3';
 import fail from '../sounds/buzzer-or-wrong-answer-20582.mp3';
 import generateMeta from '../components/openaicontroller';
+
+const NavBar = React.lazy(() => import('../components/NavBar'));
 
 export default function Home() {
     const [authState, setAuthState] = useState(null);
@@ -30,8 +31,36 @@ export default function Home() {
     const [hintText, setHintText] = useState("");
     const [meta, setMeta] = useState(null);
 
+   
+    const handleImageLoad = useCallback(() => {
+        const currentItem = items[currentIndex] || {};
+        const imageCount = [currentItem.image1, currentItem.image2, currentItem.image3, currentItem.image4].filter(Boolean).length;
+
+        let imagesLoaded = 0;
+        const imageLoadHandler = () => {
+            imagesLoaded += 1;
+            if (imagesLoaded === imageCount) {
+                setLoadingImages(false); 
+            }
+        };
+
+        [currentItem.image1, currentItem.image2, currentItem.image3, currentItem.image4].forEach((imageUrl) => {
+            if (imageUrl) {
+                const img = new Image();
+                img.src = imageUrl;
+                img.onload = imageLoadHandler;
+            }
+        });
+    }, [items, currentIndex]);
+
+    const handlePriceChange = (e) => {
+        setPrice(e.target.value);
+    };
+
+
+   
     useEffect(() => {
-        firebase.auth().onAuthStateChanged(function (user) {
+        firebase.auth().onAuthStateChanged((user) => {
             if (!user) {
                 setAuthState(false);
             } else {
@@ -41,7 +70,10 @@ export default function Home() {
         });
     }, []);
 
+   
     useEffect(() => {
+        
+
         const fetchData = async () => {
             try {
                 const snapshot = await database.ref("items").once("value");
@@ -69,87 +101,52 @@ export default function Home() {
                 console.error(error);
             }
         };
+
         fetchData();
-    }, [userUid]);
-
-    useEffect(() => {
-        if (userUid) {
-            const userRef = database.ref("My-Profile");
-
-            userRef.orderByChild("userUid").equalTo(userUid).once("value")
-                .then((snapshot) => {
-                    if (snapshot.exists()) {
-                        const userData = snapshot.val();
-                        const userKey = Object.keys(userData)[0];
-                        const currentHighScore = userData[userKey].highscore || 0;
-
-                        if (score > currentHighScore) {
-                            userRef.child(userKey).update({
-                                highscore: score,
-                            })
-                                .then(() => {
-                                    console.log("High score updated:", score);
-                                })
-                                .catch((error) => {
-                                    console.error("Error updating high score:", error);
-                                });
-                        }
-                    }
-                })
-                .catch((error) => {
-                    console.error("Error fetching user data:", error);
-                });
-        }
-    }, [userUid, score]);
-
-   
-    const handleImageLoad = () => {
-        const currentItem = items[currentIndex] || {};
-        const imageCount = [currentItem.image1, currentItem.image2, currentItem.image3, currentItem.image4].filter(Boolean).length;
-
-       
-        let imagesLoaded = 0;
-        const imageLoadHandler = () => {
-            imagesLoaded += 1;
-            if (imagesLoaded === imageCount) {
-                setLoadingImages(false); 
-            }
-        };
+    }, [authState, currentIndex]);
 
     
-        [currentItem.image1, currentItem.image2, currentItem.image3, currentItem.image4].forEach((imageUrl) => {
-            if (imageUrl) {
-                const img = new Image();
-                img.src = imageUrl;
-                img.onload = imageLoadHandler;
-            }
-        });
-    };
-
-    useEffect(() => {
-        if (items.length > 0) {
-            setLoadingImages(true);
-            handleImageLoad(); 
-        }
-    }, [items, currentIndex]);
-
-    const handleNext = () => {
+    const handleNext = useCallback(() => {
         setCurrentIndex((prevIndex) => (prevIndex + 1) % items.length);
         setPrice(0);
         setFeedback("");
-    };
+    }, [items.length]);
 
-    const handlePriceChange = (e) => {
-        setPrice(e.target.value);
-    };
 
+    useEffect(() => {
+        if (!userUid) return; 
+
+        const updateHighScore = async () => {
+            try {
+                const userRef = database.ref("My-Profile");
+                const snapshot = await userRef.orderByChild("userUid").equalTo(userUid).once("value");
+                
+                if (snapshot.exists()) {
+                    const userData = snapshot.val();
+                    const userKey = Object.keys(userData)[0];
+                    const currentHighScore = userData[userKey].highscore || 0;
+
+                    if (score > currentHighScore) {
+                        await userRef.child(userKey).update({ highscore: score });
+                        console.log("High score updated:", score);
+                    }
+                }
+            } catch (error) {
+                console.error("Error updating high score:", error);
+            }
+        };
+
+        updateHighScore();
+    }, [userUid, score]);
+
+    
     const handleSubmit = (e) => {
         e.preventDefault();
         const currentItem = items[currentIndex] || {};
         toast.dismiss();
 
         const guessedPrice = parseFloat(price);
-        if (isNaN(parseInt(guessedPrice))) {
+        if (isNaN(guessedPrice)) {
             toast(`Please enter a price`);
             return;
         }
@@ -201,16 +198,30 @@ export default function Home() {
         console.log("Generated Meta:", generatedMeta);
     };
 
-    Cookies.set('score', score, { expires: 7 });
-    Cookies.set('guesscount', guesscounter, { expires: 7 });
-    Cookies.set('guesses', JSON.stringify(guesses), { expires: 7 });
-    Cookies.set('index', currentIndex, { expires: 7 });
-    const currentItem = items[currentIndex] || {};
+   
+    useEffect(() => {
+        Cookies.set('score', score, { expires: 7 });
+        Cookies.set('guesscount', guesscounter, { expires: 7 });
+        Cookies.set('guesses', JSON.stringify(guesses), { expires: 7 });
+        Cookies.set('index', currentIndex, { expires: 7 });
+    }, [score, guesscounter, guesses, currentIndex]);
 
+    const currentItem = items[currentIndex] || {};
     return (
         <div>
-            <NavBar />
+           
+            <Suspense fallback={
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+                    <Spinner animation="border" role="status" style={{ width: '5rem', height: '5rem', color: 'white' }}>
+                        <span className="sr-only">Loading...</span>
+                    </Spinner>
+                </div>
+            }>
+                <NavBar />
+            </Suspense>
+
             <ToastContainer limit={1} autoClose={1500} />
+
             <div
                 style={{
                     width: "100%",
@@ -220,7 +231,7 @@ export default function Home() {
                     flexDirection: "column",
                 }}
             >
-                {loading || loadingImages ? ( 
+                {loading || !loadingImages ? ( 
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
                         <Spinner animation="border" role="status" style={{ width: '5rem', height: '5rem', color: 'white' }}>
                             <span className="sr-only">Loading...</span>
@@ -239,6 +250,7 @@ export default function Home() {
                                                     src={currentItem.image1}
                                                     alt="Slide 1"
                                                     style={{ maxHeight: '500px', objectFit: 'contain', minHeight: '500px' }}
+                                                    loading="lazy" 
                                                 />
                                             </Carousel.Item>
                                         )}
@@ -249,6 +261,7 @@ export default function Home() {
                                                     src={currentItem.image2}
                                                     alt="Slide 2"
                                                     style={{ maxHeight: '500px', objectFit: 'contain', minHeight: '500px' }}
+                                                    loading="lazy" 
                                                 />
                                             </Carousel.Item>
                                         )}
@@ -259,6 +272,7 @@ export default function Home() {
                                                     src={currentItem.image3}
                                                     alt="Slide 3"
                                                     style={{ maxHeight: '500px', objectFit: 'contain', minHeight: '500px' }}
+                                                    loading="lazy" 
                                                 />
                                             </Carousel.Item>
                                         )}
@@ -269,6 +283,7 @@ export default function Home() {
                                                     src={currentItem.image4}
                                                     alt="Slide 4"
                                                     style={{ maxHeight: '500px', objectFit: 'contain', minHeight: '500px' }}
+                                                    loading="lazy" 
                                                 />
                                             </Carousel.Item>
                                         )}
@@ -391,4 +406,5 @@ export default function Home() {
                 )}
             </div>
         </div>
-    );}
+    );
+}

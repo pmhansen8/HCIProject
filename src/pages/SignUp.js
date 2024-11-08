@@ -10,6 +10,7 @@ export default function SignUp() {
     const context = useContext(UserContext);
 
     const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
 
@@ -43,6 +44,7 @@ export default function SignUp() {
                 await database.ref("My-Profile").push({
                     email: user.email,
                     userUid: user.uid,
+                    username,
                     highscore: 0
                 });
                 toast(`Welcome ${user.displayName || user.email}`, { type: "success" });
@@ -83,6 +85,15 @@ export default function SignUp() {
                             placeholder="Email"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
+                            required
+                            style={{ margin: '10px', padding: '10px' }}
+                        />
+                        <br />
+                        <input
+                            type="input"
+                            placeholder="Username"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
                             required
                             style={{ margin: '10px', padding: '10px' }}
                         />

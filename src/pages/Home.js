@@ -9,6 +9,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import congrats from '../sounds/tada-fanfare-a-6313.mp3';
 import fail from '../sounds/buzzer-or-wrong-answer-20582.mp3';
 import generateMeta from '../components/openaicontroller';
+import useWindowSize from 'react-use/lib/useWindowSize'
+import Confetti from 'react-confetti'
 
 export default function Home() {
     const [authState, setAuthState] = useState(null);
@@ -29,6 +31,9 @@ export default function Home() {
     const [hintVisible, setHintVisible] = useState(false);
     const [hintText, setHintText] = useState("");
     const [meta, setMeta] = useState(null);
+    const { width, height } = useWindowSize()
+    const [showConfetti, setShowConfetti] = useState(false);
+
 
     useEffect(() => {
         firebase.auth().onAuthStateChanged(function (user) {
@@ -162,8 +167,13 @@ export default function Home() {
             congratsAudio.play();
             updateguesscounter(0);
             updatescore(score + 1);
+            setMeta(null);
             setGuesses([]);
             handleNext();
+            setShowConfetti(true);
+            setTimeout(() => {
+                setShowConfetti(false);
+            }, 3000);
         } else {
             updateguesscounter(guesscounter + 1);
             const failAudio = new Audio(fail);
@@ -174,7 +184,7 @@ export default function Home() {
             setGuesses([...guesses, { price: guessedPrice, feedback: feedbackMessage }]);
 
             if (guesscounter === 4) {
-                toast(`You Lose`);
+                toast(`You Lose the correct price was $${actualPrice}`);
                 failAudio.play();
                 updateguesscounter(0);
                 updatescore(0);
@@ -212,8 +222,10 @@ export default function Home() {
 
     return (
         <div>
+      
             <NavBar />
             <ToastContainer limit={1} autoClose={1500} />
+            {showConfetti && <Confetti width={width} height={height} />}
             <div
                 style={{
                     width: "100%",

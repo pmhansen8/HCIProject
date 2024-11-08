@@ -17,6 +17,7 @@ export default function LeaderBoard() {
                     leaderboardData.push({
                         userId,
                         highscore: data[userId].highscore,
+                        username: data[userId].username || "Anonymous"
                     });
                 }
 
@@ -39,7 +40,7 @@ export default function LeaderBoard() {
                     <thead>
                     <tr>
                         <th>Rank</th>
-
+                        <th>Name</th>
                         <th>Score</th>
                     </tr>
                     </thead>
@@ -47,6 +48,7 @@ export default function LeaderBoard() {
                     {leaderboard.map((entry, index) => (
                         <tr key={entry.userId}>
                             <td>{index + 1}</td>
+                            <td>{entry.username}</td>
                             <td>{entry.highscore}</td>
                         </tr>
                     ))}

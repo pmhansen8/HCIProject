@@ -26,6 +26,7 @@ export default function Profile() {
                         setUserData({
                             email: user.email,
                             highscore: userInfo.highscore || 0,
+                            username: userInfo.username || "Anonymous"
                         });
                     }
                 } catch (error) {
@@ -46,6 +47,9 @@ export default function Profile() {
                         <Card.Title className="text-center">Profile</Card.Title>
                         <Card.Text>
                             <strong>Email:</strong> {userData.email}
+                        </Card.Text>
+                        <Card.Text>
+                            <strong>Username:</strong> {userData.username}
                         </Card.Text>
                         <Card.Text>
                             <strong>Highscore:</strong> {userData.highscore}

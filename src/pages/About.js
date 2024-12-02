@@ -1,7 +1,7 @@
 import Navbar from '../components/NavBar';
 import brennan from '../photos/IMG_3827.jpg';
 import patrick from '../photos/image_123650291.JPG'
-import defaultpic from '../photos/defaultpic.jpg'
+import defaultpic from '../photos/default.jpg'
 
 export default function About() {
   const developersFirst = [
@@ -17,17 +17,17 @@ export default function About() {
     },
     {
       name: 'Hiram Borrero',
-      role: 'Super cool role',
+      role: 'Flow Lead',
       image: defaultpic,
     },
     {
       name: 'Jessica Hernandez',
-      role: 'Super cool role',
+      role: 'Creative Strategist',
       image: defaultpic,
     },
     {
         name: 'Alexander Moreno',
-        role: 'Super cool role',
+        role: 'Group manager',
         image: defaultpic,
       },
   ];

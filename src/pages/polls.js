@@ -60,9 +60,7 @@ const Polls = () => {
                 const data = snapshot.val();
 
                 if (data) {
-                    if(data != ""){
-                        navigate("/chart")
-                    }
+
                     setemail(user.email)
 
 
@@ -96,6 +94,8 @@ const Polls = () => {
                     });
                 });
             }
+
+            navigate('/chart')
 
             setSubmit("Submitted");
         });

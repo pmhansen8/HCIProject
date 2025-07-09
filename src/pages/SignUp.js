@@ -45,7 +45,8 @@ export default function SignUp() {
                     email: user.email,
                     userUid: user.uid,
                     username,
-                    highscore: 0
+                    highscore: 0,
+                    rest: ""
                 });
                 toast(`Welcome ${user.displayName || user.email}`, { type: "success" });
                 context.setUser({ email: user.email, uid: user.uid });
